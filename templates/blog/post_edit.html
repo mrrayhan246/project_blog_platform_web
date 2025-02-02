@@ -1,14 +1,99 @@
+<!--==========| ==> Load Static Here <== |==========-->
+{% load static %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Post</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .form-container {
+            margin: auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .form-container label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-container input[type="text"],
+        .form-container textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #6c757d;
+            color: white;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+
+    </style>
 </head>
-<body>
-    <h1>New Post</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex items-center justify-center px-4">
+        <div class="form-container w-full md:w-3/4 lg:w-1/2">
+            <h1 class="text-3xl font-bold mb-6">New Post</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="id_title">Title:</label>
+                    {{ form.title }}
+                </div>
+                <div class="mb-4">
+                    <label for="id_content">Content:</label>
+                    {{ form.content }}
+                </div>
+                <button type="submit" class="mt-4">Save</button>
+            </form>
+            <div class="mt-4 text-center">
+                <a href="{% url 'post_list' %}" class="back-button">Back</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
