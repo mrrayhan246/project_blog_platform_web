@@ -1,12 +1,78 @@
+<!--==========| ==> Load Static Here <== |==========-->
+{% load static %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ post.title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        a:hover {
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 800px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+    </style>
 </head>
-<body>
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.content }}</p>
-    <p><a href="{% url 'post_edit' pk=post.pk %}">Edit</a></p>
-    <p><a href="{% url 'post_list' %}">Back to Posts</a></p>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex items-center justify-center bg-gray-100 py-6">
+        <div class="container mx-auto px-4">
+            <div class="card">
+                <div class="content">
+                    <h1 class="text-3xl font-bold mb-4">{{ post.title }}</h1>
+                    <p class="text-gray-700 mb-6">{{ post.content }}</p>
+                    <div class="flex justify-between">
+                        <a href="{% url 'post_edit' pk=post.pk %}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Edit</a>
+                        <a href="{% url 'post_list' %}" class="inline-block px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">Back to Posts</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const links = document.querySelectorAll('a');
+
+            links.forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    link.classList.add('hover');
+                });
+                link.addEventListener('mouseleave', () => {
+                    link.classList.remove('hover');
+                });
+            });
+        });
+    </script>
 </body>
 </html>

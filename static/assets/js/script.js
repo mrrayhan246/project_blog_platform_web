@@ -1,11 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const postLinks = document.querySelectorAll('.post-link');
-    postLinks.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            link.classList.add('animated');
+    const postItems = document.querySelectorAll('.post-item');
+    const newPostBtn = document.querySelector('.new-post-btn');
+
+    postItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            item.classList.add('hover');
         });
-        link.addEventListener('mouseleave', () => {
-            link.classList.remove('animated');
+        item.addEventListener('mouseleave', () => {
+            item.classList.remove('hover');
         });
+    });
+
+    newPostBtn.addEventListener('mouseenter', () => {
+        newPostBtn.classList.add('hover');
+    });
+    newPostBtn.addEventListener('mouseleave', () => {
+        newPostBtn.classList.remove('hover');
     });
 });
