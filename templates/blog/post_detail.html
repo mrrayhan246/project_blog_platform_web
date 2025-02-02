@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    <p><a href="{% url 'post_edit' pk=post.pk %}">Edit</a></p>
+    <p><a href="{% url 'post_list' %}">Back to Posts</a></p>
+</body>
+</html>
