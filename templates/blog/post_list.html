@@ -49,30 +49,41 @@
 </head>
 
 <body class="flex flex-col items-center justify-center py-10 px-4">
-  <div class="w-full max-w-5xl bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-gray-100">
-    <!-- Header -->
-    <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-indigo-600 mb-10 fade-up">
-      📝 Blog Posts
-    </h1>
+  <div class="w-full max-w-7xl bg-white/80 backdrop-blur-lg rounded shadow-2xl p-10 border border-gray-100 fade-up">
 
-    <!-- Blog Posts -->
-    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Header Section -->
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-10 space-y-4 sm:space-y-0">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-indigo-600 text-center sm:text-left">
+        📝 Blog Posts
+      </h1>
+
+      <a href="{% url 'post_new' %}"
+        class="bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white font-semibold py-3 px-8 rounded shadow-md transform hover:scale-105 transition-all duration-300 glow">
+        ➕ New Post
+      </a>
+    </div>
+
+    <!-- Blog Posts Grid -->
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
       {% for post in posts %}
-      <li class="post-item fade-up">
-        <div class="card-hover bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:border-indigo-400">
-          <a href="{% url 'post_detail' pk=post.pk %}" class="block">
-            <h2 class="text-xl font-semibold text-gray-800 hover:text-indigo-600 transition-colors mb-2">
-              {{ post.title }}
-            </h2>
-            <p class="text-gray-600 text-sm mb-3">
-              {{ post.created_at|date:"F j, Y" }}
-            </p>
-            <p class="text-gray-500 text-sm line-clamp-3">
-              {{ post.content|truncatewords:25 }}
-            </p>
-          </a>
+      <li class="post-item fade-up h-full">
+        <div class="card-hover bg-white rounded p-6 shadow-md border border-gray-100 hover:border-indigo-400 flex flex-col justify-between h-full">
+          <div>
+            <a href="{% url 'post_detail' pk=post.pk %}" class="block">
+              <h2 class="text-xl font-semibold text-gray-800 hover:text-indigo-600 transition-colors mb-2">
+                {{ post.title }}
+              </h2>
+              <p class="text-gray-600 text-sm mb-3">
+                {{ post.created_at|date:"F j, Y" }}
+              </p>
+              <p class="text-gray-500 text-sm line-clamp-3">
+                {{ post.content|truncatewords:25 }}
+              </p>
+            </a>
+          </div>
           <div class="mt-4 text-right">
-            <a href="{% url 'post_detail' pk=post.pk %}" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm">
+            <a href="{% url 'post_detail' pk=post.pk %}"
+              class="text-indigo-600 hover:text-indigo-800 font-medium text-sm transition-colors">
               Read More →
             </a>
           </div>
@@ -83,13 +94,6 @@
       {% endfor %}
     </ul>
 
-    <!-- New Post Button -->
-    <div class="text-center mt-10">
-      <a href="{% url 'post_new' %}"
-        class="bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white font-semibold py-3 px-8 rounded-full shadow-md transform hover:scale-105 transition-all duration-300 glow">
-        ➕ New Post
-      </a>
-    </div>
   </div>
 
   <!-- Scroll Animation Script -->
