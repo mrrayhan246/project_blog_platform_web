@@ -2,6 +2,9 @@
 
 A web application built with Django that allows users to create, edit, delete, and view blog posts. Each post can have a title, content, tags, and publication date.
 
+## Screenshot
+![Blog Platform Screenshot](./blog_screenshot.png)
+
 ## Installation
 
 ### Prerequisites
