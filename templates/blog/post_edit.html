@@ -4,96 +4,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Post</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Post</title>
 
-        .form-container {
-            margin: auto;
-            background: white;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-        .form-container h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-        .form-container label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #c7d2fe, #fef9c3);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        .form-container input[type="text"],
-        .form-container textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 0.25rem;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
 
-        .form-container button {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
-        }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-        .form-container button:hover {
-            background-color: #0056b3;
-        }
+    .glow {
+      box-shadow: 0 0 15px rgba(99,102,241,0.4);
+    }
 
-        .back-button {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: #6c757d;
-            color: white;
-            border-radius: 0.25rem;
-            text-decoration: none;
-            transition: background-color 0.3s ease-in-out;
-        }
+    .input-field {
+      transition: all 0.3s ease;
+    }
 
-        .back-button:hover {
-            background-color: #5a6268;
-        }
+    .input-field:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 8px rgba(99,102,241,0.4);
+      transform: scale(1.01);
+    }
 
-    </style>
+    .btn {
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    .card {
+      background: white;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(99,102,241,0.1), transparent 70%);
+      transform: rotate(25deg);
+      z-index: 0;
+    }
+
+    .card > * {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
 </head>
-<body class="bg-gray-100">
-    <div class="min-h-screen flex items-center justify-center px-4">
-        <div class="form-container w-full md:w-3/4 lg:w-1/2">
-            <h1 class="text-3xl font-bold mb-6">New Post</h1>
-            <form method="post">
-                {% csrf_token %}
-                <div class="mb-4">
-                    <label for="id_title">Title:</label>
-                    {{ form.title }}
-                </div>
-                <div class="mb-4">
-                    <label for="id_content">Content:</label>
-                    {{ form.content }}
-                </div>
-                <button type="submit" class="mt-4">Save</button>
-            </form>
-            <div class="mt-4 text-center">
-                <a href="{% url 'post_list' %}" class="back-button">Back</a>
-            </div>
-        </div>
+
+<body class="flex flex-col items-center justify-center px-4 py-12">
+
+  <!-- Floating Background Effects -->
+  <div class="absolute top-0 left-0 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+  <div class="absolute bottom-0 right-0 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+
+  <!-- Form Card -->
+  <div class="card w-full max-w-7xl p-8 fade-up rounded">
+    <h1 class="text-4xl font-extrabold text-center text-indigo-600 mb-8">📝 Create New Post</h1>
+
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+      <div>
+        <label for="id_title" class="block text-gray-700 font-semibold mb-2">Title</label>
+        {{ form.title }}
+      </div>
+
+      <div>
+        <label for="id_content" class="block text-gray-700 font-semibold mb-2">Content</label>
+        {{ form.content }}
+      </div>
+
+      <button type="submit"
+        class="btn w-full py-3 bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-md glow">
+        💾 Save Post
+      </button>
+    </form>
+
+    <div class="mt-6 text-center">
+      <a href="{% url 'post_list' %}"
+        class="btn inline-block px-6 py-2 bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white rounded-lg shadow-md transition">
+        ← Back to Posts
+      </a>
     </div>
+  </div>
+
+  <!-- Scroll & Button Animations -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const fadeElements = document.querySelectorAll(".fade-up");
+
+      const revealOnScroll = () => {
+        fadeElements.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight - 100) {
+            el.classList.add("visible");
+          }
+        });
+      };
+
+      window.addEventListener("scroll", revealOnScroll);
+      revealOnScroll();
+
+      // Click ripple feedback animation
+      document.querySelectorAll(".btn").forEach(btn => {
+        btn.addEventListener("mousedown", () => btn.classList.add("scale-95"));
+        btn.addEventListener("mouseup", () => setTimeout(() => btn.classList.remove("scale-95"), 150));
+      });
+    });
+  </script>
 </body>
 </html>
