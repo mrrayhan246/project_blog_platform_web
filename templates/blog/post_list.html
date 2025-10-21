@@ -4,27 +4,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
-</head>
-<body class="bg-gray-100">
-    <div class="container mx-auto p-4">
-        <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Blog Posts</h1>
-        <ul class="space-y-4">
-            {% for post in posts %}
-                <li class="post-item p-4 bg-white rounded-lg shadow hover:bg-gray-50 transition">
-                    <a href="{% url 'post_detail' pk=post.pk %}" class="post-link text-2xl text-blue-600 hover:text-blue-800">{{ post.title }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-        <div class="text-center mt-8">
-            <a href="{% url 'post_new' %}" class="new-post-btn inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">New Post</a>
-        </div>
-    </div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog</title>
 
-    <script src="{% static 'assets/js/scripts.js' %}"></script>
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #c7d2fe, #fef9c3);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.7s ease-in-out;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .glow {
+      box-shadow: 0 0 12px rgba(99,102,241,0.5);
+    }
+  </style>
+</head>
+
+<body class="flex flex-col items-center justify-center py-10 px-4">
+  <div class="w-full max-w-5xl bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-gray-100">
+    <!-- Header -->
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-indigo-600 mb-10 fade-up">
+      📝 Blog Posts
+    </h1>
+
+    <!-- Blog Posts -->
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for post in posts %}
+      <li class="post-item fade-up">
+        <div class="card-hover bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:border-indigo-400">
+          <a href="{% url 'post_detail' pk=post.pk %}" class="block">
+            <h2 class="text-xl font-semibold text-gray-800 hover:text-indigo-600 transition-colors mb-2">
+              {{ post.title }}
+            </h2>
+            <p class="text-gray-600 text-sm mb-3">
+              {{ post.created_at|date:"F j, Y" }}
+            </p>
+            <p class="text-gray-500 text-sm line-clamp-3">
+              {{ post.content|truncatewords:25 }}
+            </p>
+          </a>
+          <div class="mt-4 text-right">
+            <a href="{% url 'post_detail' pk=post.pk %}" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm">
+              Read More →
+            </a>
+          </div>
+        </div>
+      </li>
+      {% empty %}
+      <p class="text-center text-gray-500 italic col-span-full">No posts yet. Create your first one!</p>
+      {% endfor %}
+    </ul>
+
+    <!-- New Post Button -->
+    <div class="text-center mt-10">
+      <a href="{% url 'post_new' %}"
+        class="bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white font-semibold py-3 px-8 rounded-full shadow-md transform hover:scale-105 transition-all duration-300 glow">
+        ➕ New Post
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll Animation Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const fadeElements = document.querySelectorAll(".fade-up");
+
+      const revealOnScroll = () => {
+        fadeElements.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight - 100) {
+            el.classList.add("visible");
+          }
+        });
+      };
+
+      window.addEventListener("scroll", revealOnScroll);
+      revealOnScroll();
+
+      // Button click feedback animation
+      const buttons = document.querySelectorAll("a, button");
+      buttons.forEach(btn => {
+        btn.addEventListener("mousedown", () => btn.classList.add("scale-95"));
+        btn.addEventListener("mouseup", () => setTimeout(() => btn.classList.remove("scale-95"), 150));
+      });
+    });
+  </script>
 </body>
 </html>
